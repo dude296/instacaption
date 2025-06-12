@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InstaCaption 🚀</title>
+    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; text-align: center; background-color: #f7f9fc; }
+        input, button { padding: 10px; margin: 10px; width: 250px; }
+        button { background-color: #6772E5; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <img src="{{ url_for('static', filename='logo.png') }}" width="150"/>
+    <h1>InstaCaption 🚀</h1>
+    <input type="text" id="topic" placeholder="Enter a topic..." />
+    <button onclick="getCaption()">Generate Caption ✨</button>
+    <p id="result"></p>
+
+    <br>
+    <button onclick="window.location='/subscribe'" style="padding:10px;background-color:#6772E5;color:white;border:none;border-radius:4px;margin-top:20px;">
+        Subscribe for $9/month 💳
+    </button>
+
+    <script>
+        function getCaption() {
+            const topic = document.getElementById('topic').value;
+            fetch('/caption', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ topic: topic })
+            })
+            .then(response => response.json())
+            .then(data => document.getElementById('result').innerText = data.caption)
+            .catch(err => alert("Error generating caption."));
+        }
+    </script>
+</body>
+</html>
