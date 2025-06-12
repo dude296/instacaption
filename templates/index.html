@@ -2,21 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InstaCaption 🚀</title>
-    <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-    <style>
-        body { font-family: 'Poppins', sans-serif; text-align: center; background-color: #f7f9fc; }
-        input, button { padding: 10px; margin: 10px; width: 250px; }
-        button { background-color: #6772E5; color: white; border: none; cursor: pointer; }
-    </style>
+    <title>InstaCaption</title>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-17187557567">
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-17187557567');
+</script>
 </head>
 <body>
-    <img src="{{ url_for('static', filename='logo.png') }}" width="150"/>
-    <h1>InstaCaption 🚀</h1>
-    <input type="text" id="topic" placeholder="Enter a topic..." />
-    <button onclick="getCaption()">Generate Caption ✨</button>
-    <p id="result"></p>
+    <h2>🔖 InstaCaption: AI-powered Instagram Captions 🔖</h2>
+    <input id="topic" placeholder="Enter your topic (e.g., Beach, Travel)" style="width:250px;padding:10px;">
+    <button onclick="generateCaption()" style="padding:10px;">Generate Caption ✨</button>
+    <p id="result" style="margin-top:20px;font-size:16px;"></p>
 
     <br>
     <button onclick="window.location='/subscribe'" style="padding:10px;background-color:#6772E5;color:white;border:none;border-radius:4px;margin-top:20px;">
@@ -24,16 +26,15 @@
     </button>
 
     <script>
-        function getCaption() {
+        async function generateCaption(){
             const topic = document.getElementById('topic').value;
-            fetch('/caption', {
+            const response = await fetch('/caption', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ topic: topic })
-            })
-            .then(response => response.json())
-            .then(data => document.getElementById('result').innerText = data.caption)
-            .catch(err => alert("Error generating caption."));
+                body: JSON.stringify({topic})
+            });
+            const data = await response.json();
+            document.getElementById('result').innerText = data.caption;
         }
     </script>
 </body>
